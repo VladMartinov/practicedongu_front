@@ -1,5 +1,9 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+	<div class="about">
+		<h1><GithubOutlined /></h1>
+	</div>
 </template>
+
+<script lang="ts" setup>
+import { GithubOutlined } from '@ant-design/icons-vue';
+</script>
