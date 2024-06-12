@@ -52,7 +52,9 @@ intercept(({ request, response }) => {
       return config;
     },
     async (error: AxiosError) => {
-      const { guid } = error.response!.config as ExtendedAxiosRequestConfig;
+      if (!error.response) return Promise.reject(error.response);
+
+      const { guid } = error.response.config as ExtendedAxiosRequestConfig;
 
       if (guid) {
         const index = queue.findIndex((x) => _.isEqual(x.guid, guid));
@@ -69,7 +71,7 @@ intercept(({ request, response }) => {
 });
 
 class Api {
-  private instance: AxiosInstance;
+  public instance: AxiosInstance;
 
   constructor() {
     this.instance = instance;
@@ -77,7 +79,7 @@ class Api {
     // Register local services
     requireService
       .keys()
-      .forEach((filename) => requireService(filename).default(this));
+      .forEach((filename) => requireService(filename).default(instance));
   }
 
   install(app: App) {
