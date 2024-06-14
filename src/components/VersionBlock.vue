@@ -14,9 +14,9 @@ const version = computed(() => {
 
 <style scoped lang="scss">
 .version {
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
   padding: 5px 10px;
   border-radius: 10px;
   border: 1px solid #bbbbbb;

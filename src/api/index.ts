@@ -64,9 +64,8 @@ intercept(({ request, response }) => {
       return config;
     },
     async (error: AxiosError) => {
-      console.log(error.response);
-  if (!error.response || error.response.status === 500) store.dispatch("setWireless", WirelessStatusEnum.InActive);
-      if (!error.response) return Promise.reject(error.response);
+      if (!error.response || error.response.status === 500) store.dispatch("setWireless", WirelessStatusEnum.InActive);
+          if (!error.response) return Promise.reject(error.response);
 
       const { guid } = error.response.config as ExtendedAxiosRequestConfig;
 
@@ -105,8 +104,6 @@ class Api {
           this.instance.record = service;
         }
       });
-
-    console.log(this.instance.mineral);
   }
 
   install(app: App) {

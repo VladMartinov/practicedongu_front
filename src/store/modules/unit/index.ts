@@ -24,7 +24,7 @@ const mutations = {
     state.units.push(unit);
   },
   updateUnit(state: UnitState, unit: RestfulUnit) {
-    const indexToUpdate = _.findIndex(state.units, { UnitId: unit.UnitId });
+    const indexToUpdate = _.findIndex(state.units, { unitId: unit.unitId });
     if (indexToUpdate === -1) return
 
     state.units = [
@@ -34,7 +34,7 @@ const mutations = {
     ];
   },
   deleteUnit(state: UnitState, unitId: number) {
-    const indexToUpdate = _.findIndex(state.units, { UnitId: unitId });
+    const indexToUpdate = _.findIndex(state.units, { unitId: unitId });
     if (indexToUpdate === -1) return
 
     state.units = [

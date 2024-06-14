@@ -24,7 +24,7 @@ const mutations = {
     state.minerals.push(mineral);
   },
   updateMineral(state: MineralState, mineral: RestfulMineral) {
-    const indexToUpdate = _.findIndex(state.minerals, { MineralId: mineral.MineralId });
+    const indexToUpdate = _.findIndex(state.minerals, { mineralId: mineral.mineralId });
     if (indexToUpdate === -1) return
 
     state.minerals = [
@@ -34,7 +34,7 @@ const mutations = {
     ];
   },
   deleteMineral(state: MineralState, mineralId: number) {
-    const indexToUpdate = _.findIndex(state.minerals, { MineralId: mineralId });
+    const indexToUpdate = _.findIndex(state.minerals, { mineralId: mineralId });
     if (indexToUpdate === -1) return
 
     state.minerals = [

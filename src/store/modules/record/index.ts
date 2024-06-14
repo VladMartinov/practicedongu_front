@@ -13,7 +13,7 @@ const state: RecordState = {
 };
 
 const getters = {
-  getRecords: (state: RecordState) => state.records
+  getRecords: (state: RecordState): Array<RestfulRecord> => state.records
 };
 
 const mutations = {
@@ -24,7 +24,7 @@ const mutations = {
     state.records.push(record);
   },
   updateRecord(state: RecordState, record: RestfulRecord) {
-    const indexToUpdate = _.findIndex(state.records, { RecordDate: record.RecordDate, MineralId: record.MineralId });
+    const indexToUpdate = _.findIndex(state.records, { recordDate: record.recordDate, mineralId: record.mineralId });
     if (indexToUpdate === -1) return
 
     state.records = [
@@ -34,7 +34,7 @@ const mutations = {
     ];
   },
   deleteRecord(state: RecordState, { recordDate, mineralId } : { recordDate: Date, mineralId: number }) {
-    const indexToUpdate = _.findIndex(state.records, { RecordDate: recordDate, MineralId: mineralId });
+    const indexToUpdate = _.findIndex(state.records, { recordDate: recordDate, mineralId: mineralId });
     if (indexToUpdate === -1) return
 
     state.records = [

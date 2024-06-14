@@ -3,14 +3,14 @@
     <a-layout-sider v-model:collapsed="collapsed" collapsible>
       <div class="logo" />
       <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
-        <a-menu-item key="1" @click="router.push({ name: 'statistics' })">
+        <a-menu-item key="statistics" @click="router.push({ name: 'statistics' })">
           <pie-chart-outlined />
           <span>{{ $dictionary('statistics') }}</span>
         </a-menu-item>
-        <a-menu-item key="2" @click="router.push({ name: 'about' })">
+        <!--<a-menu-item key="about" @click="router.push({ name: 'about' })">
           <info-circle-outlined />
           <span>{{ $dictionary('about') }}</span>
-        </a-menu-item>
+        </a-menu-item>-->
         <a-sub-menu key="sub1">
           <template #title>
             <span>
@@ -18,13 +18,13 @@
               <span>{{ $dictionary('data') }}</span>
             </span>
           </template>
-          <a-menu-item key="3" @click="router.push({ name: 'records' })">
+          <a-menu-item key="records" @click="router.push({ name: 'records' })">
             <span>{{ $dictionary('records') }}</span>
           </a-menu-item>
-          <a-menu-item key="4" @click="router.push({ name: 'minerals' })">
+          <a-menu-item key="minerals" @click="router.push({ name: 'minerals' })">
             <span>{{ $dictionary('minerals') }}</span>
           </a-menu-item>
-          <a-menu-item key="5" @click="router.push({ name: 'units' })">
+          <a-menu-item key="units" @click="router.push({ name: 'units' })">
             <span>{{ $dictionary('units') }}</span>
           </a-menu-item>
         </a-sub-menu>
@@ -63,7 +63,7 @@ import {
 } from '@ant-design/icons-vue';
 import VersionBlock from './components/VersionBlock.vue';
 import LoadingBlock from './components/LoadingBlock.vue';
-import { computed, inject, ref } from 'vue';
+import { computed, inject, onMounted, ref } from 'vue';
 import { Router, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { WirelessStatusEnum } from './utils/Enum';
@@ -73,19 +73,19 @@ const store = useStore();
 const dictionary = inject('$dictionary');
 
 const collapsed = ref<boolean>(false);
-const selectedKeys = ref<string[]>(['1']);
+const selectedKeys = ref<string[]>([]);
 
 const headerTitle = computed(() => {
-  switch (selectedKeys.value[0]) {
-    case '1':
+  switch (router.currentRoute.value.name) {
+    case 'statistics':
       return dictionary('statistics');
-    case '2':
+    case 'about':
       return dictionary('about');
-    case '3':
+    case 'records':
       return dictionary('data') + ' -> ' + dictionary('records');
-    case '4':
+    case 'minerals':
       return dictionary('data') + ' -> ' + dictionary('minerals');
-    case '5':
+    case 'units':
       return dictionary('data') + ' -> ' + dictionary('units');
     default:
       return `(${dictionary('loading')}...))`;
@@ -101,6 +101,14 @@ const wirelessStatus = computed(() => {
       return 'default';
   }
 })
+
+onMounted(() => {
+  selectedKeys.value.push(router.currentRoute.value.name?.toString() || 'statistics');
+
+  store.dispatch("getMinerals");
+  store.dispatch("getUnits");
+  store.dispatch("getRecords");
+});
 </script>
 
 <style lang="scss">

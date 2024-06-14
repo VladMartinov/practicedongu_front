@@ -1,4 +1,4 @@
 export type RestfulMineral = {
-  MineralId: number;
-  MineralName: string;
+  mineralId: number;
+  mineralName: string;
 };
