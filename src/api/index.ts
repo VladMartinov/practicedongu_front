@@ -6,9 +6,11 @@ import _ from "lodash";
 import { MineralInstans } from '@/api/services/Mineral.service';
 import { UnitInstans } from "./services/Unit.service";
 import { RecordInstans } from "./services/Record.service";
+import { WirelessStatusEnum } from "@/utils/Enum";
 
 export interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
   guid: string;
+  config: ExtendedAxiosRequestConfig;
 }
 
 export interface ExtendedAxiosInstance extends AxiosInstance {
@@ -31,12 +33,12 @@ const requireService = require.context("./services", false, /.service.ts$/),
 export const intercept = (fn: (interceptors: any) => void) => fn(instance.interceptors);
 
 const debouncedPreloader = _.debounce(function () {
-  // store.dispatch("setLoading", false);
+  store.dispatch("setLoading", false);
 }, 700);
 
 intercept(({ request, response }) => {
   request.use((config: ExtendedAxiosRequestConfig) => {
-    // store.dispatch("setLoading", true);
+    store.dispatch("setLoading", true);
 
     config.guid = guid.guidFunction().create();
 
@@ -47,7 +49,8 @@ intercept(({ request, response }) => {
 
   response.use(
     (config: ExtendedAxiosRequestConfig) => {
-      const { guid } = config;
+      store.dispatch("setWireless", WirelessStatusEnum.Active);
+      const { guid } = config.config;
 
       if (guid) {
         const index = queue.findIndex((x) => _.isEqual(x.guid, guid));
@@ -61,6 +64,8 @@ intercept(({ request, response }) => {
       return config;
     },
     async (error: AxiosError) => {
+      console.log(error.response);
+  if (!error.response || error.response.status === 500) store.dispatch("setWireless", WirelessStatusEnum.InActive);
       if (!error.response) return Promise.reject(error.response);
 
       const { guid } = error.response.config as ExtendedAxiosRequestConfig;
