@@ -449,7 +449,9 @@ const secondTask = function (): void {
   yearValue.value = '2010';
   productionValue.value = 10;
   productionValueType.value = 'more';
-  unitValue.value = unitsOptions.value.find((unit) => unit.label = 'тыс. т')?.value;
+  unitValue.value = unitsOptions.value.find((unit) => unit.label === 'тыс. т')?.value;
+  console.log(unitValue.value);
+  
   filterRecords();
   printFormattedRecords.value = [...formattedRecords.value]; // Обновляем formattedRecords.value
   showModal.value = true;
@@ -459,7 +461,7 @@ const thirdTask = function (): void {
   yearValue.value = '2000';
   productionValue.value = 20;
   productionValueType.value = 'more';
-  unitValue.value = unitsOptions.value.find((unit) => unit.label = 'тыс. т')?.value;
+  unitValue.value = unitsOptions.value.find((unit) => unit.label === 'тыс. т')?.value;
   filterRecords();
   printFormattedRecords.value = [...formattedRecords.value]; // Обновляем formattedRecords.value
   showModal.value = true;
