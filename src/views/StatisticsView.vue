@@ -229,9 +229,6 @@ const pieData = computed(() => {
     }
   });
 
-  console.log('Labels: ', labels);
-  console.log('Datasets: ', datasets);
-
   return {
     labels: labels, // Названия минералов с годом
     datasets
