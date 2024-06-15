@@ -28,7 +28,7 @@ const mutations = {
     if (indexToUpdate === -1) return
 
     state.minerals = [
-      ...(indexToUpdate === 0 ? [] : _.slice(state.minerals, 0, indexToUpdate - 1)),
+      ...(indexToUpdate === 0 ? [] : _.slice(state.minerals, 0, indexToUpdate)),
       mineral,
       ..._.slice(state.minerals, indexToUpdate + 1, state.minerals.length)
     ];
@@ -38,7 +38,7 @@ const mutations = {
     if (indexToUpdate === -1) return
 
     state.minerals = [
-      ...(indexToUpdate === 0 ? [] : _.slice(state.minerals, 0, indexToUpdate - 1)),
+      ...(indexToUpdate === 0 ? [] : _.slice(state.minerals, 0, indexToUpdate)),
       ..._.slice(state.minerals, indexToUpdate + 1, state.minerals.length)
     ];
   }
@@ -46,7 +46,7 @@ const mutations = {
 
 const actions = {
   getMinerals({ commit }: any) {
-    api.instance.mineral.mineralsGet()
+    return api.instance.mineral.mineralsGet()
       .then((response) => {
         commit('setMinerals', response.data);
       })
@@ -55,30 +55,21 @@ const actions = {
       });
   },
   postMineral({ commit }: any, mineral: RestfulMineral) {
-    api.instance.mineral.mineralPost(mineral)
+    return api.instance.mineral.mineralPost(mineral)
       .then((response) => {
         commit('addMineral', response.data);
-      })
-      .catch((error: Error) => {
-        // handle error
       });
   },
   putMineral({ commit }: any, { mineralId, mineral } : { mineralId: number, mineral: RestfulMineral }) {
-    api.instance.mineral.mineralPut(mineralId, mineral)
+    return api.instance.mineral.mineralPut(mineralId, mineral)
       .then((response) => {
         commit('updateMineral', response.data);
-      })
-      .catch((error: Error) => {
-        // handle error
       });
   },
   deleteMineral({ commit }: any, mineralId: number) {
-    api.instance.mineral.mineralDelete(mineralId)
+    return api.instance.mineral.mineralDelete(mineralId)
       .then(() => {
         commit('deleteMineral', mineralId);
-      })
-      .catch((error: Error) => {
-        // handle error
       });
   },
 };

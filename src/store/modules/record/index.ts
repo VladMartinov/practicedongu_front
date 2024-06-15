@@ -28,7 +28,7 @@ const mutations = {
     if (indexToUpdate === -1) return
 
     state.records = [
-      ...(indexToUpdate === 0 ? [] : _.slice(state.records, 0, indexToUpdate - 1)),
+      ...(indexToUpdate === 0 ? [] : _.slice(state.records, 0, indexToUpdate)),
       record,
       ..._.slice(state.records, indexToUpdate + 1, state.records.length)
     ];
@@ -38,7 +38,7 @@ const mutations = {
     if (indexToUpdate === -1) return
 
     state.records = [
-      ...(indexToUpdate === 0 ? [] : _.slice(state.records, 0, indexToUpdate - 1)),
+      ...(indexToUpdate === 0 ? [] : _.slice(state.records, 0, indexToUpdate)),
       ..._.slice(state.records, indexToUpdate + 1, state.records.length)
     ];
   }
@@ -46,39 +46,27 @@ const mutations = {
 
 const actions = {
   getRecords({ commit }: any) {
-    api.instance.record.recordsGet()
+    return api.instance.record.recordsGet()
       .then((response) => {
         commit('setRecords', response.data);
-      })
-      .catch((error: Error) => {
-        // handle error
       });
   },
   postRecord({ commit }: any, record: RestfulRecord) {
-    api.instance.record.recordPost(record)
+    return api.instance.record.recordPost(record)
       .then((response) => {
         commit('addRecord', response.data);
-      })
-      .catch((error: Error) => {
-        // handle error
       });
   },
   putRecord({ commit }: any, record: RestfulRecord) {
-    api.instance.record.recordPut(record)
+    return api.instance.record.recordPut(record)
       .then((response) => {
         commit('updateRecord', response.data);
-      })
-      .catch((error: Error) => {
-        // handle error
       });
   },
   deleteRecord({ commit }: any, { recordDate, mineralId }: { recordDate: Date, mineralId: number }) {
-    api.instance.record.recordDelete(recordDate, mineralId)
-      .then(() => {
-        commit('deleteRecord', recordDate, mineralId);
-      })
-      .catch((error: Error) => {
-        // handle error
+    return api.instance.record.recordDelete(recordDate, mineralId)
+      .then(async () => {
+        await commit('deleteRecord', { recordDate, mineralId });
       });
   },
 };

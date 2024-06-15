@@ -21,6 +21,23 @@ export default {
           statisticsByMineralDesc: "На данном графике будет представлена информацию по количеству добычи полезного ископаемого за весь период.",
           statisticsBestYear: "Статистика лучших",
           statisticsBestYearDesc: "На данном графике будет представлена информацию по максимальному количеству добычи полезных ископаемых за лучшие его годы.",
+
+          create: "Создать",
+          update: "Обновить",
+          delete: "Удалить",
+          filter: "Фильтр",
+          reset: "Сбросить",
+          search: "Поиск",
+
+          task: "Задание",
+
+          name: "Наименование",
+          unit: "Единица измерения",
+          action: "Действие",
+
+          print: "Печать",
+
+          production: "Добыча",
         };
 
         const enDictionary: { [key: string]: string } = {
@@ -40,6 +57,23 @@ export default {
           statisticsByMineralDesc: "This graph will provide information on the amount of mineral production for the entire period.",
           statisticsBestYear: "Statistics of the best",
           statisticsBestYearDesc: "This graph will provide information on the maximum amount of mineral production in its best years.",
+
+          create: "Create",
+          update: "Update",
+          delete: "Delete",
+          filter: "Filter",
+          reset: "Reset",
+          search: "Search",
+
+          task: "Task",
+
+          name: "Name",
+          unit: "Unit of measurement",
+          action: "Action",
+
+          print: "Print",
+
+          production: "Production",
         };
 
         return localStorage.getItem("lang") === "eng"

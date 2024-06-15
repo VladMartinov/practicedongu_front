@@ -138,13 +138,14 @@ const barData = computed(() => {
 
     return {
       label: mineral.mineralName,
-      backgroundColor: '#f87979', // Replace with your desired color
+      backgroundColor: '#1677ff',
+      minBarLength: 3,
       data
     };
   });
 
   return {
-    labels: _.map(minerals, 'mineralName'), // Mineral names as labels
+    labels: yearValue.value ? [yearValue.value] : _.map(yearOptions.value, 'value'), // Mineral names as labels
     datasets
   };
 })
@@ -177,7 +178,7 @@ const lineData = computed(() => {
 
   const datasets = [{ // Используем только один набор данных для выбранного минерала
     label: minerals.find(mineral => mineral.mineralId === selectedMineralId)?.mineralName || '', // Название минерала
-    backgroundColor: '#f87979', // Замените на желаемый цвет
+    backgroundColor: '#1677ff',
     data: _.map(groupedRecordsByYear, (recordsForYear) => {
       return _.sumBy(recordsForYear, (record) => {
         const unit = units.find(unit => unit.unitId === record.unitId);
@@ -200,6 +201,16 @@ const pieData = computed(() => {
   const groupedRecordsByMineral = _.groupBy(records, 'mineralId');
   const datasets: { label: string; backgroundColor: string; data: number[] }[] = [];
 
+  datasets.push({
+    label: 'Добыча:',
+    backgroundColor: '#1677ff',
+    hoverOffset: 5,
+    spacing: 5,
+    data: []
+  })
+
+  const labels: Array<string> = [];
+
   _.forEach(minerals, (mineral) => {
     const mineralRecords = groupedRecordsByMineral[mineral.mineralId] || [];
 
@@ -213,16 +224,16 @@ const pieData = computed(() => {
       const bestYear = new Date(bestRecord.recordDate).getFullYear();
 
       // Добавляем данные для pie chart
-      datasets.push({
-        label: `${mineral.mineralName} (${bestYear})`, // Форматируем label
-        backgroundColor: '#f87979', // Замените на желаемый цвет
-        data: [bestRecord.recordValue * (units.find(unit => unit.unitId === bestRecord.unitId)?.unitValue || 1)] // Используем unitValue для вычисления
-      });
+      labels.push(`${mineral.mineralName} (${bestYear})`);
+      datasets[0].data.push(bestRecord.recordValue * (units.find(unit => unit.unitId === bestRecord.unitId)?.unitValue || 1));
     }
   });
 
+  console.log('Labels: ', labels);
+  console.log('Datasets: ', datasets);
+
   return {
-    labels: _.map(datasets, 'label'), // Названия минералов с годом
+    labels: labels, // Названия минералов с годом
     datasets
   };
 })

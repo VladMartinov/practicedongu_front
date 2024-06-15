@@ -28,7 +28,7 @@ const mutations = {
     if (indexToUpdate === -1) return
 
     state.units = [
-      ...(indexToUpdate === 0 ? [] : _.slice(state.units, 0, indexToUpdate - 1)),
+      ...(indexToUpdate === 0 ? [] : _.slice(state.units, 0, indexToUpdate)),
       unit,
       ..._.slice(state.units, indexToUpdate + 1, state.units.length)
     ];
@@ -38,7 +38,7 @@ const mutations = {
     if (indexToUpdate === -1) return
 
     state.units = [
-      ...(indexToUpdate === 0 ? [] : _.slice(state.units, 0, indexToUpdate - 1)),
+      ...(indexToUpdate === 0 ? [] : _.slice(state.units, 0, indexToUpdate)),
       ..._.slice(state.units, indexToUpdate + 1, state.units.length)
     ];
   }
@@ -46,39 +46,27 @@ const mutations = {
 
 const actions = {
   getUnits({ commit }: any) {
-    api.instance.unit.unitsGet()
+    return api.instance.unit.unitsGet()
       .then((response) => {
         commit('setUnits', response.data);
-      })
-      .catch((error: Error) => {
-        // handle error
       });
   },
   postUnit({ commit }: any, unit: RestfulUnit) {
-    api.instance.unit.unitPost(unit)
+    return api.instance.unit.unitPost(unit)
       .then((response) => {
         commit('addUnit', response.data);
-      })
-      .catch((error: Error) => {
-        // handle error
       });
   },
   putUnit({ commit }: any, { unitId, unit } : { unitId: number, unit: RestfulUnit }) {
-    api.instance.unit.unitPut(unitId, unit)
+    return api.instance.unit.unitPut(unitId, unit)
       .then((response) => {
         commit('updateUnit', response.data);
-      })
-      .catch((error: Error) => {
-        // handle error
       });
   },
   deleteUnit({ commit }: any, unitId: number) {
-    api.instance.unit.unitDelete(unitId)
+    return api.instance.unit.unitDelete(unitId)
       .then(() => {
         commit('deleteUnit', unitId);
-      })
-      .catch((error: Error) => {
-        // handle error
       });
   },
 };
